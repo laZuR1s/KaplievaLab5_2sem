@@ -29,32 +29,33 @@ int main()
 	bool correctfile{ false };
 	do
 	{
-		std::string filename;
-		std::cout << "\nВведите имя файла>>> ";
-		std::cin >> filename;
-		std::cin.ignore();
-		std::ifstream input(filename);
 		
 
-		switch (check_file(input))
+		bool flag = true;
+		std::string filename;
+		while (flag)
 		{
-		case -1:
-			std::cout << "File not found\n";
-			break;
-		case 0:
-			std::cout << "Empty file\n";
-			break;
-		default:
+			std::cout << "\nВведите имя файла(полностью, с .txt): ";
+			std::cin >> filename;
+			std::cin.ignore();
+			std::ifstream input1(filename);
+			if (check_file(input1)==1)
+				flag = false;
+		}
+		std::ifstream input(filename);
+
+		
 			std::cout << "\nВведите подстроку: ";
 			std::string combination;
 			std::cin >> combination;
 			correctfile = true;
 			std::cout << "\nФайл output.txt был создан \n";
 			std::ofstream output("output.txt");
-			task(input, output,combination);
+			task(input, output, combination);
 			input.close();
 			output.close();
-		}
+
+		
 	} while (!correctfile);
 	std::cin.ignore(std::cin.rdbuf()->in_avail()).get();;
 }
@@ -66,11 +67,15 @@ int check_file(std::ifstream& file)
 	int res = 1;
 	if (!file)
 	{
-		res = -1; // Файл не найден!
+		res = -1;
+		std::cout << "Файл не найден!\n";
 	}
 	else
 		if (file.peek() == EOF)
-			res = 0; // Файл пустой!
+		{
+			res = 0;
+			std::cout << "Файл пустой\n";
+		}
 	return res;
 }
 

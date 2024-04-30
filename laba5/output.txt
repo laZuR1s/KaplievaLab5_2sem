@@ -1,2 +1,2 @@
-pidor
-pidoron
+close
+nose
